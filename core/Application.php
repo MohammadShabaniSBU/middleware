@@ -4,6 +4,7 @@ namespace App\core;
 
 use App\core\db\Database;
 use App\core\db\MysqlDatabase;
+use App\exceptions\MiddlewareException;
 
 class Application
 {
@@ -36,7 +37,11 @@ class Application
 
     public function run()
     {
-        $this->router->resolve();
+        try {
+            $this->router->resolve();
+        } catch(MiddlewareException $e) {
+            $e->run();
+        }
     }
 
 }

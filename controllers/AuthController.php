@@ -37,13 +37,9 @@ class AuthController extends Controller
         
         if(is_array($user) and $inpuTdata['loginpassword']==$user[0]['password'])
         {
-            
-            Auth::do()->login($user['id']);
+            Auth::do()->login($user[0]['id']);
 
-            Application::$app->response->to('armin');
-
-            Application::$app->controller->render('armin');
-            
+            // Application::$app->response->to('dashboard');
 
         }
         $this->setLayout('auth');

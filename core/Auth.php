@@ -12,20 +12,20 @@ class Auth
 
     public function login($id):bool
     {
-        return Cookie::put('id', $id, 120);
+        return Cookie::put('id', $id, 120000);
     }
 
-    public function isLogin($id):bool
+    public function isLogin():bool
     {
 
-        return Cookie::exists($id);
+        return Cookie::exists('id');
         
     }
 
     public function user():array|false
     {
 
-        $nameId=Cookie::get('id');
+        $nameId=Cookie::get('id') ?? '';
 
         return User::do()->find($nameId);
 

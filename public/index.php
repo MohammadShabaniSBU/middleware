@@ -3,6 +3,10 @@
 use App\controllers\AuthController;
 use App\controllers\TodoController;
 use App\core\Application;
+use App\core\Auth;
+use App\middlewares\AuthMiddleware;
+use App\models\User;
+
 require_once __DIR__ . "/../vendor/autoload.php";
 
 // dotenv
@@ -34,10 +38,15 @@ $app->router->post('/task/update', [TodoController::class, 'update']);
 $app->router->get('/login', [AuthController::class, 'loginPage']);
 $app->router->post('/login', [AuthController::class, 'login']);
 
+$app->router->get('/me', function() {
+    var_dump(Auth::do()->user());
+}, AuthMiddleware::class);
+
 $app->router->get('/register', [AuthController::class, 'registerShow']);
 $app->router->post('/register', [AuthController::class, 'register']);
 
 $app->router->get('/armin', [AuthController::class, 'showDashboard']);
+
 
 
 $app->run();

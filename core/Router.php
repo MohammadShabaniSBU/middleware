@@ -16,14 +16,20 @@ class Router
         $this->view = $view;
     }
 
-    public function get($path, $callback)
+    public function get($path, $callback, $middleware = null)
     {
-        $this->routes['get'][$path] = $callback;
+        $this->routes['get'][$path] = [
+            'callback' => $callback,
+            'middleware' => $middleware,
+        ];
     }
 
-    public function post($path, $callback)
+    public function post($path, $callback, $middleware = null)
     {
-        $this->routes['post'][$path] = $callback;
+        $this->routes['post'][$path] = [
+            'callback' => $callback,
+            'middleware' => $middleware,
+        ];
     }
 
     public function resolve()
@@ -31,7 +37,10 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->method();
 
-        $callback = $this->routes[$method][$path] ?? false;
+        $route = $this->routes[$method][$path] ?? false;
+
+        $callback = $route['callback'];
+        $middleware = $route['middleware'];
 
         if ($callback === false)
         {
@@ -47,6 +56,11 @@ class Router
            Application::$app->controller = new $callback[0];
            $callback[0] = Application::$app->controller;
         }
+
+        if (!is_null($middleware)) {
+            call_user_func([new $middleware, 'check']);
+        }
+
         return call_user_func($callback);
 
     }
