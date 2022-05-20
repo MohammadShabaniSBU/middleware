@@ -1,0 +1,21 @@
+{
+    "name": "ssm/mvc-project",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sadegh",
+            "email": "sadeghmousavi.sw@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "./"
+        }
+    },
+    "require": {
+      "ext-pdo": "*",
+        "vlucas/phpdotenv": "^5.4",
+      "ext-json": "*"
+    }
+}
